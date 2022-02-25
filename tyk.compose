@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+        redis:
+                image: redis:latest
+                volumes:
+                        - ./redis-data:/data
+                networks:
+                        - tyk-ce
+                restart: always
+        gateway:
+                image: tykio/tyk-gateway:latest
+                volumes:
+                        - ./gateway-data/apps:/opt/tyk-gateway/apps
+                ports:
+                        - "8088:8080"
+                networks:
+                        - tyk-ce
+                environment:
+                        - TYK_GW_SECRET=#secret#
+                        - TYK_GW_STORAGE_HOST=redis
+                        - TYK_GW_HEALTHCHECK_ENABLE_HEALTHCHECKS=false
+                        - TYK_GW_COPROCESSOPTIONS_ENABLECOPROCESS=false
+                restart: always
+
+networks:
+        tyk-ce:
