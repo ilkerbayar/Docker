@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+        grpc:
+                image: ilkerbayar/grpc2:latest
+                restart: always
+                ports:
+                  - 32769:80
